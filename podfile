@@ -1,0 +1,8 @@
+use_frameworks!
+target 'Dictionary' do
+    pod 'EasyTipView', '~> 2.0.4'
+    pod 'Hashtags'
+    pod 'MaterialComponents/TextFields'
+    pod 'MaterialComponents/Buttons'
+    pod 'Material'
+end

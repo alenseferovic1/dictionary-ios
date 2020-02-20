@@ -1,0 +1,92 @@
+PODS:
+  - AlignedCollectionViewFlowLayout (1.1.2)
+  - EasyTipView (2.0.4)
+  - Hashtags (0.1.3):
+    - AlignedCollectionViewFlowLayout (~> 1.1.2)
+  - Material (3.1.8):
+    - Material/Core (= 3.1.8)
+  - Material/Core (3.1.8):
+    - Motion (~> 3.1.1)
+  - MaterialComponents/AnimationTiming (104.0.0)
+  - MaterialComponents/Availability (104.0.0)
+  - MaterialComponents/Buttons (104.0.0):
+    - MaterialComponents/Elevation
+    - MaterialComponents/Ink
+    - MaterialComponents/private/Math
+    - MaterialComponents/Ripple
+    - MaterialComponents/ShadowElevations
+    - MaterialComponents/ShadowLayer
+    - MaterialComponents/Shapes
+    - MaterialComponents/Typography
+    - MDFInternationalization
+    - MDFTextAccessibility
+  - MaterialComponents/Elevation (104.0.0):
+    - MaterialComponents/Availability
+    - MaterialComponents/private/Color
+    - MaterialComponents/private/Math
+  - MaterialComponents/Ink (104.0.0):
+    - MaterialComponents/private/Color
+    - MaterialComponents/private/Math
+  - MaterialComponents/Palettes (104.0.0)
+  - MaterialComponents/private/Application (104.0.0)
+  - MaterialComponents/private/Color (104.0.0)
+  - MaterialComponents/private/Math (104.0.0)
+  - MaterialComponents/Ripple (104.0.0):
+    - MaterialComponents/AnimationTiming
+    - MaterialComponents/private/Color
+    - MaterialComponents/private/Math
+  - MaterialComponents/ShadowElevations (104.0.0)
+  - MaterialComponents/ShadowLayer (104.0.0):
+    - MaterialComponents/ShadowElevations
+  - MaterialComponents/Shapes (104.0.0):
+    - MaterialComponents/private/Color
+    - MaterialComponents/private/Math
+    - MaterialComponents/ShadowLayer
+  - MaterialComponents/TextFields (104.0.0):
+    - MaterialComponents/AnimationTiming
+    - MaterialComponents/Buttons
+    - MaterialComponents/Elevation
+    - MaterialComponents/Palettes
+    - MaterialComponents/private/Math
+    - MaterialComponents/Typography
+    - MDFInternationalization
+  - MaterialComponents/Typography (104.0.0):
+    - MaterialComponents/private/Application
+    - MaterialComponents/private/Math
+  - MDFInternationalization (2.0.0)
+  - MDFTextAccessibility (2.0.0)
+  - Motion (3.1.3):
+    - Motion/Core (= 3.1.3)
+  - Motion/Core (3.1.3)
+
+DEPENDENCIES:
+  - EasyTipView (~> 2.0.4)
+  - Hashtags
+  - Material
+  - MaterialComponents/Buttons
+  - MaterialComponents/TextFields
+
+SPEC REPOS:
+  trunk:
+    - AlignedCollectionViewFlowLayout
+    - EasyTipView
+    - Hashtags
+    - Material
+    - MaterialComponents
+    - MDFInternationalization
+    - MDFTextAccessibility
+    - Motion
+
+SPEC CHECKSUMS:
+  AlignedCollectionViewFlowLayout: ee2ef451e741ec08f8e0967d828001e2f051c20a
+  EasyTipView: 4f8beae0a82db2ca4a9b5fd658785fc5f61d296b
+  Hashtags: 6e2fbcb3ec0cae07403aab96985a9497927a5962
+  Material: a2a3f400a3b549d53ef89e56c58c4535b29db387
+  MaterialComponents: c220527ebde19e53b3efc22eca7ade9ab6a76bd4
+  MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
+  MDFTextAccessibility: 85c09a1bd9c321f494348e632a25063bcda35a53
+  Motion: cf1e060e489f6661126374d5c60dbd2ed991605c
+
+PODFILE CHECKSUM: 2a370b9406ebf8501981190d1b2451eff3c10598
+
+COCOAPODS: 1.8.4
