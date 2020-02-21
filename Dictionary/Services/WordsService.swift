@@ -14,18 +14,15 @@ protocol WordsServiceProtocol {
 }
 
 class WordsService: BaseService, WordsServiceProtocol{
-   var wordsDictionary = [String: [String]]()
-   var searchWordsDictionary = [String: [String]]()
-   
+    var wordsDictionary = [String: [String]]()
+
     func getSearchedWords(searchString: String) {
-        if let (entry) = wordsDictionary.first(where: { (key, value) -> Bool in key.lowercased().contains(searchString.lowercased()) }) {
-            
-            searchWordsDictionary.removeAll()
-            searchWordsDictionary[entry.key] = entry.value
-            
-           } else {
-               print("no match")
-           }
+        var searchWordsDictionary = [String: [String]]()
+                
+         searchWordsDictionary = wordsDictionary.filter{
+            // check if word in dictionary contains search string
+            $0.key.lowercased().contains(searchString.lowercased())
+        }
         
         self.output?.responseFromService(object: searchWordsDictionary, error: nil)
     }
@@ -33,49 +30,81 @@ class WordsService: BaseService, WordsServiceProtocol{
     func setWordsServiceOutput(serviceOutput: ServiceOutput) {
         self.output = serviceOutput
     }
-    
-      func addNewWordToDictionary(wordAsKey: String, synonyms: [String]) {
-        var modifiedSynonyms = [String]()
-        
-        // Check if word already exists
-        
-    // kuca: avlija, ognjiste
-        
-        // basta: avlija, ognjiste
-        
-        if wordsDictionary[wordAsKey] == nil{
-            var array = [String]()
-          wordsDictionary[wordAsKey] = synonyms
-    
-            for  (index,syn) in synonyms.enumerated(){
-                if wordsDictionary[syn] == nil{
-                    // remove duplicates if they exists
-                                 var newSynonyms = synonyms
-                                 
-                                                newSynonyms.remove(at: index)
-                                                newSynonyms.append(wordAsKey)
-                    
-                    wordsDictionary[syn] = newSynonyms
-                    modifiedSynonyms.append(syn)
-                }else{
-                    array.append(contentsOf: wordsDictionary[syn]!)
-                    var newSynonyms = modifiedSynonyms
-                                   newSynonyms.remove(at: index)
-                                   newSynonyms.append(wordAsKey)
-                                   wordsDictionary[syn]!.append(contentsOf: newSynonyms)
-                                  
-//                    for synob in wordsDictionary[syn]!{
-//                        if !synonyms.contains(synob){
-//                            wordsDictionary[wordAsKey]?.append(synob)
-//                        }
-//                    }
-                                   
-                    
-                }
-            }
-        
-            wordsDictionary[wordAsKey]?.append(contentsOf: array.filter { !synonyms.contains($0)})
 
-      }
+     func addAndUpdateSynonymsAsWord(_ synonyms: [String], _ wordAsKey: String, _ arrayOfNoExsistingSynonyms: inout [String], _ arrayOfExsitingSynonyms: inout [String]) {
+        for  (index,syn) in synonyms.enumerated(){
+            // add synonyms as words and replace synonym with word
+            if wordsDictionary[syn] == nil{
+                
+                var newSynonyms = synonyms
+                
+                newSynonyms.remove(at: index)
+                newSynonyms.append(wordAsKey)
+                
+                arrayOfNoExsistingSynonyms.append(syn)
+                wordsDictionary[syn] = newSynonyms
+                
+            }else{
+                //  append array with existing synonyms
+                //add new word/key as synonym to synonym as word
+
+                arrayOfExsitingSynonyms.append(syn)
+                wordsDictionary[syn]?.append(wordAsKey)
+            }
+        }
+        
+        //update existed items with  words as synonyms
+        for existedItem in arrayOfExsitingSynonyms{
+            wordsDictionary[existedItem]?.append(contentsOf: arrayOfNoExsistingSynonyms)
+        }
+    }
+    
+    fileprivate func updateDictionaryWithMissingWords(_ arrayOfExsitingSynonyms: inout [String], _ synonyms: [String], _ wordAsKey: String, _ arrayOfNoExsistingSynonyms: [String]) {
+        // Exsisting synonyms/words are already up to date and from them we can get missing words
+        
+        let existedItem = arrayOfExsitingSynonyms[0]
+        // set new array for avoid duplicate for loop
+        var synonymsDictionary = [String: String]()
+        for synonym in synonyms{
+            synonymsDictionary[synonym] = "synonym"
+        }
+        let missingWords = wordsDictionary[existedItem]?.filter{synonymsDictionary[$0] == nil}
+        // new array we are using to avoid duplicates
+        var modifiedMissingWordsArray = [String]()
+        
+        for (index,item) in missingWords!.enumerated(){
+            if(item != wordAsKey){
+                wordsDictionary[item]?.append(wordAsKey)
+                wordsDictionary[item]?.append(contentsOf: arrayOfNoExsistingSynonyms)
+            }else{
+                modifiedMissingWordsArray = missingWords!
+                modifiedMissingWordsArray.remove(at: index)
+                wordsDictionary[item]?.append(contentsOf: modifiedMissingWordsArray)
+            }
+        }
+        
+        for noExsistedItem in arrayOfNoExsistingSynonyms{
+            
+            wordsDictionary[noExsistedItem]?.append(contentsOf: modifiedMissingWordsArray)
+        }
+    }
+    
+    func addNewWordToDictionary(wordAsKey: String, synonyms: [String]) {
+      
+        if wordsDictionary[wordAsKey] == nil{
+            var arrayOfExsitingSynonyms = [String]()
+            var arrayOfNoExsistingSynonyms = [String]()
+            wordsDictionary[wordAsKey] = synonyms
+            
+            addAndUpdateSynonymsAsWord(synonyms, wordAsKey, &arrayOfNoExsistingSynonyms, &arrayOfExsitingSynonyms)
+            
+            // update all related words with missing synonyms
+            
+            if(arrayOfExsitingSynonyms.count != 0){
+
+                updateDictionaryWithMissingWords(&arrayOfExsitingSynonyms, synonyms, wordAsKey, arrayOfNoExsistingSynonyms)
+                
+            }
+        }
     }
 }

@@ -17,6 +17,8 @@ class WordTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollecti
     @IBOutlet weak var initialWordLabel: UILabel!
     @IBOutlet weak var wordLabel: UILabel!
     
+    var synonyms = [String]()
+    
     var preferences = EasyTipView.Preferences()
     var navigationController: UINavigationController!
         var toolTipView: EasyTipView?
@@ -37,8 +39,14 @@ class WordTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollecti
 
     }
     
-    func setupNavigationController(navigationController: UINavigationController){
+    func setupNavigationController(navigationController: UINavigationController, word: String, synonyms: [String]){
+        self.synonyms.removeAll()
         self.navigationController = navigationController
+        wordLabel.text = word
+        initialWordLabel.text = word.prefix(1).uppercased()
+        self.synonyms.append(contentsOf: synonyms)
+        self.synonymsCollectionView.reloadData()
+        
     }
     
     func setupShadow() {
@@ -58,7 +66,7 @@ class WordTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return synonyms.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -83,7 +91,7 @@ class WordTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = synonymsCollectionView.dequeueReusableCell(withReuseIdentifier: "SynonymCollectionViewCell", for: indexPath as IndexPath) as! SynonymCollectionViewCell
-
+        cell.setupCellContent(synonym: synonyms[indexPath.row])
         return cell
     }
 }

@@ -14,6 +14,7 @@ protocol WordsViewModelOutput {
 
 protocol WordsViewModelProtocol {
     func getSearchedItems(searchString: String)
+    func addNewWordToDictionary(wordAsKey: String, synonyms: [String])
     func setWordsViewModelOutput(wordsViewModelOutput: WordsViewModelOutput)
 }
 
@@ -44,6 +45,9 @@ class WordsViewModel: WordsViewModelProtocol, ServiceOutput{
         self.wordsViewModelOutput = wordsViewModelOutput
     }
     
+    func addNewWordToDictionary(wordAsKey: String, synonyms: [String]) {
+        wordsService.addNewWordToDictionary(wordAsKey: wordAsKey, synonyms: synonyms)
+    }
 }
 
 

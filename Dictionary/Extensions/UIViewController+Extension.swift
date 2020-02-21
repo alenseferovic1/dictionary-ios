@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 extension UIViewController{
-    func setupNavBarPlusIcon() {
+    
+    func setupNavBarPlusIcon(delegate: AddWordsDelegate) {
         let color = UIColor.white
         navigationController?.navigationBar.barTintColor = color
         navigationController?.navigationBar.isTranslucent = false
@@ -23,7 +24,12 @@ extension UIViewController{
         let button = UIButton(type: .system)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.black
-        button.addTarget(self, action: #selector(goToAddWordScreen), for: .touchUpInside)
+        let tapGesture = CustomTapGestureRecognizer(target: self,
+                                                    action: #selector(tapSelector(sender:)))
+        tapGesture.ourCustomValue = delegate
+                
+        button.addGestureRecognizer(tapGesture)
+      //  button.addTarget(self, action: #selector(goToAddWordScreen), for: .touchUpInside)
         
         let menuBarItem = UIBarButtonItem(customView: button)
         menuBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false
@@ -48,6 +54,14 @@ extension UIViewController{
         let story = UIStoryboard(name: "Main", bundle: nil)
                    let addWordViewController = story.instantiateViewController(withIdentifier: "AddWordViewController") as! AddWordViewController
             self.navigationController?.pushViewController(addWordViewController, animated: true)
+    }
+    
+    @objc
+    func tapSelector(sender: CustomTapGestureRecognizer) {
+           let story = UIStoryboard(name: "Main", bundle: nil)
+                       let addWordViewController = story.instantiateViewController(withIdentifier: "AddWordViewController") as! AddWordViewController
+                addWordViewController.addWordsDelegate = sender.ourCustomValue
+                self.navigationController?.pushViewController(addWordViewController, animated: true)
     }
     
     func setupNavBarTitle(title: String) {
@@ -100,4 +114,7 @@ class PaddingLabel: UILabel {
         }
     }
     
+}
+class CustomTapGestureRecognizer: UITapGestureRecognizer {
+    var ourCustomValue: AddWordsDelegate?
 }

@@ -20,7 +20,7 @@ class SynonymCollectionViewCell: UICollectionViewCell {
          self.synonymCell!.layer.cornerRadius = 11
     }
     
-    func setupCellContent(navigationController: UINavigationController){
-        self.navigationController = navigationController
+    func setupCellContent(synonym: String){
+        titleLabel.text = synonym
     }
 }

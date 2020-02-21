@@ -128,6 +128,9 @@
                                         <state key="normal" title="Add Words">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addNewWordsAction:" destination="T8i-2I-7J3" eventType="touchUpInside" id="RgB-Sb-Crf"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -152,6 +155,7 @@
                         <viewLayoutGuide key="safeArea" id="USe-jj-AaO"/>
                     </view>
                     <connections>
+                        <outlet property="addNewWordButton" destination="5Tl-bo-lld" id="fOr-cY-YId"/>
                         <outlet property="addTagButton" destination="fM0-2W-nVK" id="R8y-TT-aqA"/>
                         <outlet property="addWordsButton" destination="5Tl-bo-lld" id="0If-Dh-AxP"/>
                         <outlet property="addWordsWrapper" destination="9yR-Hy-Gmi" id="egT-OP-zYA"/>

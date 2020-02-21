@@ -9,6 +9,11 @@
 import UIKit
 import Hashtags
 
+protocol AddWordsDelegate {
+    func addWords(word: String, synonyms: [String])
+}
+
+
 class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, UITextViewDelegate {
     
     struct Constants {
@@ -20,9 +25,18 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
     @IBOutlet weak var addTagButton: UIButton!
     
     @IBOutlet weak var addWordsButton: UIButton!
+    
     var heightConstraint: NSLayoutConstraint?
+    
+    var addWordsDelegate: AddWordsDelegate?
+    
+    
+    @IBOutlet weak var addNewWordButton: UIButton!
+    
     let addSynonymField = MyMultilineTextField(placeholder: "Enter new synonym")
     let addWordField = MyMultilineTextField(placeholder: "Enter new word")
+    
+    var addedTags = [String]()
     
     let scrollView: UIScrollView = {
         let v = UIScrollView()
@@ -54,6 +68,18 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         setupConstrainsForField(view: addSynonymField, equalView: addWordField, topAnchorConstant: 70.0, leadingAnchorConstant: 20.0, traillingAnchorConstant: -130.0)
     }
     
+    
+    @IBAction func addNewWordsAction(_ sender: Any) {
+        var synonyms = [String]()
+        
+        for tag in hashtags.hashtags{
+            synonyms.append(tag.text)
+        }
+        
+        addWordsDelegate?.addWords(word: addWordField.text!, synonyms: synonyms)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func setupConstrainsForField(view: UIView, equalView: UIView, topAnchorConstant: CGFloat, leadingAnchorConstant: CGFloat, traillingAnchorConstant: CGFloat){
         view.translatesAutoresizingMaskIntoConstraints = false
         view.leadingAnchor.constraint(equalTo: addWordsWrapper.leadingAnchor, constant: leadingAnchorConstant).isActive = true
@@ -63,15 +89,23 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
     
     @IBAction func addSynonym(_ sender: Any) {
         let hashtag = HashTag(word: addSynonymField.text!, withHashSymbol: false, isRemovable: true)
-        if addSynonymField.text != ""{
+        if addSynonymField.text != "" && !addedTags.contains(addSynonymField.text!){
+            
+            addedTags.append(addSynonymField.text!)
             hashtags.addTag(tag: hashtag)
-            scrollView.backgroundColor = UIColor.gray.withAlphaComponent(0.3)
-            scrollView.contentSize = CGSize(width: 100, height: hashtags.frame.size.height - 10)
+        }else{
+            let alert = UIAlertController(title: "Duplicate synonym", message: "Synonym already exists.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
+        scrollView.backgroundColor = UIColor.gray.withAlphaComponent(0.3)
+        scrollView.contentSize = CGSize(width: 100, height: hashtags.frame.size.height - 10)
+        addSynonymField.text = ""
     }
     
     func setupContentView() {
         addTagButton.layer.cornerRadius = 5
+        addWordsButton.layer.cornerRadius = 5
         addWordsWrapper.clipsToBounds = true
         addWordsWrapper.layer.cornerRadius = 20
         addWordsWrapper.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
@@ -148,7 +182,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         if UIDevice.current.orientation.isPortrait {
-         
+            
             let hashtag = HashTag(word: "", withHashSymbol: false, isRemovable: true)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {         self.hashtags.addTag(tag: hashtag)
                 self.hashtags.removeTag(tag: hashtag)
