@@ -10,28 +10,18 @@ import UIKit
 import Hashtags
 
 protocol AddWordsDelegate {
-    func addWords(word: String, synonyms: [String])
+    func addWords(word: String, synonyms: [String], wordSearchDelegate: WordSearchDelegate)
 }
 
+class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, UITextViewDelegate, WordSearchDelegate {
 
-class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, UITextViewDelegate {
-    
-    struct Constants {
-        static let minCharsForInput = 3
-        static let maxCharsForInput = 30
-    }
-    
     @IBOutlet weak var addWordsWrapper: UIView!
     @IBOutlet weak var addTagButton: UIButton!
-    
     @IBOutlet weak var addWordsButton: UIButton!
+    @IBOutlet weak var addNewWordButton: UIButton!
     
     var heightConstraint: NSLayoutConstraint?
-    
     var addWordsDelegate: AddWordsDelegate?
-    
-    
-    @IBOutlet weak var addNewWordButton: UIButton!
     
     let addSynonymField = MyMultilineTextField(placeholder: "Enter new synonym")
     let addWordField = MyMultilineTextField(placeholder: "Enter new word")
@@ -76,8 +66,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
             synonyms.append(tag.text)
         }
         
-        addWordsDelegate?.addWords(word: addWordField.text!, synonyms: synonyms)
-        self.navigationController?.popViewController(animated: true)
+        addWordsDelegate?.addWords(word: addWordField.text!, synonyms: synonyms, wordSearchDelegate: self)
     }
     
     func setupConstrainsForField(view: UIView, equalView: UIView, topAnchorConstant: CGFloat, leadingAnchorConstant: CGFloat, traillingAnchorConstant: CGFloat){
@@ -103,6 +92,18 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         addSynonymField.text = ""
     }
     
+     func addConstrainsToScrollViewAndHashtags() {
+        scrollView.leftAnchor.constraint(equalTo: addWordsWrapper.leftAnchor, constant: 20.0).isActive = true
+        scrollView.topAnchor.constraint(equalTo: addWordsWrapper.topAnchor, constant: 155.0).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: addWordsWrapper.rightAnchor, constant: -20.0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: addWordsWrapper.bottomAnchor, constant: -70.0).isActive = true
+        
+        hashtags.translatesAutoresizingMaskIntoConstraints = false
+        hashtags.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0).isActive = true
+        hashtags.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20.0).isActive = true
+        scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 240.0).isActive = true
+    }
+    
     func setupContentView() {
         addTagButton.layer.cornerRadius = 5
         addWordsButton.layer.cornerRadius = 5
@@ -116,15 +117,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         self.addWordsWrapper.addSubview(scrollView)
         self.scrollView.addSubview(self.hashtags)
         
-        scrollView.leftAnchor.constraint(equalTo: addWordsWrapper.leftAnchor, constant: 20.0).isActive = true
-        scrollView.topAnchor.constraint(equalTo: addWordsWrapper.topAnchor, constant: 155.0).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: addWordsWrapper.rightAnchor, constant: -20.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: addWordsWrapper.bottomAnchor, constant: -70.0).isActive = true
-        
-        self.hashtags.translatesAutoresizingMaskIntoConstraints = false
-        self.hashtags.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0).isActive = true
-        self.hashtags.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20.0).isActive = true
-        self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 240.0).isActive = true
+        addConstrainsToScrollViewAndHashtags()
         
         self.heightConstraint = self.hashtags.heightAnchor.constraint(equalToConstant: 50.0)
         self.heightConstraint?.isActive = true
@@ -189,4 +182,19 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
             }
         }
     }
+    
+    func closeAddWordsControllerOnSuccess(wordIsAdded: Bool) {
+        if wordIsAdded{
+            self.navigationController?.popViewController(animated: true)
+        }else{
+            
+            showAlertDialog()
+        }
+    }
+    
+    func showAlertDialog(title: String, message: String) {
+          let alert = UIAlertController(title: "Duplicate Word", message: "Word has already added.", preferredStyle: UIAlertController.Style.alert)
+          alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+          self.present(alert, animated: true, completion: nil)
+      }
 }

@@ -8,30 +8,36 @@
 
 import Foundation
 protocol WordsServiceProtocol {
-    func setWordsServiceOutput(serviceOutput: ServiceOutput)
+    func setWordsServiceOutput(serviceOutput: WordsServiceOutput)
     func getSearchedWords(searchString: String)
     func addNewWordToDictionary(wordAsKey: String, synonyms: [String])
 }
 
-class WordsService: BaseService, WordsServiceProtocol{
-    var wordsDictionary = [String: [String]]()
+protocol WordsServiceOutput{
+    func wordsResponseFromService(object: [String: [String]]?, error: Error?)
+    func addWordsResponseFromService(wordIsAdded: Bool)
+}
 
+class WordsService: WordsServiceProtocol{
+    var wordsDictionary = [String: [String]]()
+    var serviceOutput: WordsServiceOutput?
+    
     func getSearchedWords(searchString: String) {
         var searchWordsDictionary = [String: [String]]()
-                
-         searchWordsDictionary = wordsDictionary.filter{
+        
+        searchWordsDictionary = wordsDictionary.filter{
             // check if word in dictionary contains search string
             $0.key.lowercased().contains(searchString.lowercased())
         }
         
-        self.output?.responseFromService(object: searchWordsDictionary, error: nil)
+        self.serviceOutput?.wordsResponseFromService(object: searchWordsDictionary, error: nil)
     }
     
-    func setWordsServiceOutput(serviceOutput: ServiceOutput) {
-        self.output = serviceOutput
+    func setWordsServiceOutput(serviceOutput: WordsServiceOutput) {
+        self.serviceOutput = serviceOutput
     }
-
-     func addAndUpdateSynonymsAsWord(_ synonyms: [String], _ wordAsKey: String, _ arrayOfNoExsistingSynonyms: inout [String], _ arrayOfExsitingSynonyms: inout [String]) {
+    
+    func addAndUpdateSynonymsAsWord(_ synonyms: [String], _ wordAsKey: String, _ arrayOfNoExsistingSynonyms: inout [String], _ arrayOfExsitingSynonyms: inout [String]) {
         for  (index,syn) in synonyms.enumerated(){
             // add synonyms as words and replace synonym with word
             if wordsDictionary[syn] == nil{
@@ -47,7 +53,7 @@ class WordsService: BaseService, WordsServiceProtocol{
             }else{
                 //  append array with existing synonyms
                 //add new word/key as synonym to synonym as word
-
+                
                 arrayOfExsitingSynonyms.append(syn)
                 wordsDictionary[syn]?.append(wordAsKey)
             }
@@ -90,7 +96,7 @@ class WordsService: BaseService, WordsServiceProtocol{
     }
     
     func addNewWordToDictionary(wordAsKey: String, synonyms: [String]) {
-      
+        
         if wordsDictionary[wordAsKey] == nil{
             var arrayOfExsitingSynonyms = [String]()
             var arrayOfNoExsistingSynonyms = [String]()
@@ -101,10 +107,13 @@ class WordsService: BaseService, WordsServiceProtocol{
             // update all related words with missing synonyms
             
             if(arrayOfExsitingSynonyms.count != 0){
-
+                
                 updateDictionaryWithMissingWords(&arrayOfExsitingSynonyms, synonyms, wordAsKey, arrayOfNoExsistingSynonyms)
                 
             }
+            serviceOutput?.addWordsResponseFromService(wordIsAdded: true)
+        }else{
+            serviceOutput?.addWordsResponseFromService(wordIsAdded: false)
         }
     }
 }

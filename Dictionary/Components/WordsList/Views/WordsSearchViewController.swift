@@ -8,8 +8,12 @@
 
 import UIKit
 
-class ViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, WordsViewModelOutput, AddWordsDelegate {
-    
+protocol WordSearchDelegate {
+    func closeAddWordsControllerOnSuccess(wordIsAdded: Bool)
+}
+
+class WordsSearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, WordsViewModelOutput, AddWordsDelegate {
+
     @IBOutlet weak var wordsSearchBar: UISearchBar!
     
     @IBOutlet weak var wordsTableView: UITableView!
@@ -19,6 +23,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UITableViewDataSour
     @IBOutlet weak var searchIcon: UIImageView!
     
     var wordsViewModel: WordsViewModelProtocol?
+    
+    var wordSearchDelegate: WordSearchDelegate?
     
     var dictionary = [String: [String]]()
     
@@ -113,8 +119,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UITableViewDataSour
         setSearchIconConstraints()
     }
     
-    func addWords(word: String, synonyms: [String]) {
+    func addWords(word: String, synonyms: [String], wordSearchDelegate: WordSearchDelegate) {
+        self.wordSearchDelegate = wordSearchDelegate
         wordsViewModel!.addNewWordToDictionary(wordAsKey: word, synonyms: synonyms)
+    }
+    
+    func getAddWordsResponse(wordIsAdded: Bool) {
+        wordSearchDelegate?.closeAddWordsControllerOnSuccess(wordIsAdded: wordIsAdded)
     }
 }
 

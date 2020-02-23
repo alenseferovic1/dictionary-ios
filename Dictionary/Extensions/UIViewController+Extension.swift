@@ -29,7 +29,6 @@ extension UIViewController{
         tapGesture.ourCustomValue = delegate
                 
         button.addGestureRecognizer(tapGesture)
-      //  button.addTarget(self, action: #selector(goToAddWordScreen), for: .touchUpInside)
         
         let menuBarItem = UIBarButtonItem(customView: button)
         menuBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false

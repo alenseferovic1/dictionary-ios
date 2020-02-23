@@ -10,7 +10,7 @@
 		0EBD86B935AE88BEED24321E /* Pods_Dictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23DF474F15C270CFCE07ABE9 /* Pods_Dictionary.framework */; };
 		1F11EBB423F69FE400A07CEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F11EBB323F69FE400A07CEE /* AppDelegate.swift */; };
 		1F11EBB623F69FE400A07CEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F11EBB523F69FE400A07CEE /* SceneDelegate.swift */; };
-		1F11EBB823F69FE400A07CEE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F11EBB723F69FE400A07CEE /* ViewController.swift */; };
+		1F11EBB823F69FE400A07CEE /* WordsSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F11EBB723F69FE400A07CEE /* WordsSearchViewController.swift */; };
 		1F11EBBB23F69FE400A07CEE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F11EBB923F69FE400A07CEE /* Main.storyboard */; };
 		1F11EBBD23F69FE800A07CEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F11EBBC23F69FE800A07CEE /* Assets.xcassets */; };
 		1F11EBC023F69FE800A07CEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F11EBBE23F69FE800A07CEE /* LaunchScreen.storyboard */; };
@@ -26,6 +26,7 @@
 		1F9EBC0223FC12DD00F955FC /* WordsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9EBC0123FC12DD00F955FC /* WordsService.swift */; };
 		1F9EBC0423FC138B00F955FC /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9EBC0323FC138B00F955FC /* BaseService.swift */; };
 		1F9EBC0723FC2A6C00F955FC /* WordsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9EBC0623FC2A6C00F955FC /* WordsViewModel.swift */; };
+		1FE72AA02402B53D00102E9D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE72A9F2402B53D00102E9D /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +50,7 @@
 		1F11EBB023F69FE400A07CEE /* Dictionary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dictionary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F11EBB323F69FE400A07CEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F11EBB523F69FE400A07CEE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1F11EBB723F69FE400A07CEE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1F11EBB723F69FE400A07CEE /* WordsSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsSearchViewController.swift; sourceTree = "<group>"; };
 		1F11EBBA23F69FE400A07CEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1F11EBBC23F69FE800A07CEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F11EBBF23F69FE800A07CEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -70,6 +71,7 @@
 		1F9EBC0123FC12DD00F955FC /* WordsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsService.swift; sourceTree = "<group>"; };
 		1F9EBC0323FC138B00F955FC /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		1F9EBC0623FC2A6C00F955FC /* WordsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsViewModel.swift; sourceTree = "<group>"; };
+		1FE72A9F2402B53D00102E9D /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		23DF474F15C270CFCE07ABE9 /* Pods_Dictionary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dictionary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51F23C788CA924194EA53F4A /* Pods-Dictionary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dictionary.debug.xcconfig"; path = "Target Support Files/Pods-Dictionary/Pods-Dictionary.debug.xcconfig"; sourceTree = "<group>"; };
 		5E29424E864C81EDA359F59F /* Pods-Dictionary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dictionary.release.xcconfig"; path = "Target Support Files/Pods-Dictionary/Pods-Dictionary.release.xcconfig"; sourceTree = "<group>"; };
@@ -205,7 +207,7 @@
 		1F11EBEA23F6E94F00A07CEE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1F11EBB723F69FE400A07CEE /* ViewController.swift */,
+				1F11EBB723F69FE400A07CEE /* WordsSearchViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -225,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				1F1F082223FA6D510035BB79 /* MyMultilineTextField.swift */,
+				1FE72A9F2402B53D00102E9D /* Utils.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -452,12 +455,13 @@
 				1F68C65E23F92BF500D0E8B2 /* AddWordViewController.swift in Sources */,
 				1F9EBC0223FC12DD00F955FC /* WordsService.swift in Sources */,
 				1F9EBC0723FC2A6C00F955FC /* WordsViewModel.swift in Sources */,
-				1F11EBB823F69FE400A07CEE /* ViewController.swift in Sources */,
+				1F11EBB823F69FE400A07CEE /* WordsSearchViewController.swift in Sources */,
 				1F11EBB423F69FE400A07CEE /* AppDelegate.swift in Sources */,
 				1F68C65923F7BBE300D0E8B2 /* SynonymCollectionViewCell.swift in Sources */,
 				1F11EBB623F69FE400A07CEE /* SceneDelegate.swift in Sources */,
 				1F9EBC0423FC138B00F955FC /* BaseService.swift in Sources */,
 				1F1F082323FA6D510035BB79 /* MyMultilineTextField.swift in Sources */,
+				1FE72AA02402B53D00102E9D /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

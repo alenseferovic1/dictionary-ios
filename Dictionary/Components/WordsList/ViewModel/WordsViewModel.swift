@@ -10,6 +10,7 @@ import Foundation
 
 protocol WordsViewModelOutput {
     func getSearchWordsResult(dictionary: [String : [String]]?, error: Error?)
+    func getAddWordsResponse(wordIsAdded: Bool)
 }
 
 protocol WordsViewModelProtocol {
@@ -19,7 +20,7 @@ protocol WordsViewModelProtocol {
 }
 
 
-class WordsViewModel: WordsViewModelProtocol, ServiceOutput{
+class WordsViewModel: WordsViewModelProtocol, WordsServiceOutput{
 
     var wordsService: WordsServiceProtocol
     var wordsViewModelOutput: WordsViewModelOutput?
@@ -37,10 +38,6 @@ class WordsViewModel: WordsViewModelProtocol, ServiceOutput{
         wordsService.getSearchedWords(searchString: searchString)
     }
     
-    func responseFromService(object: [String : [String]]?, error: Error?) {
-        wordsViewModelOutput?.getSearchWordsResult(dictionary: object, error: nil)
-    }
-    
     func setWordsViewModelOutput(wordsViewModelOutput: WordsViewModelOutput) {
         self.wordsViewModelOutput = wordsViewModelOutput
     }
@@ -48,6 +45,15 @@ class WordsViewModel: WordsViewModelProtocol, ServiceOutput{
     func addNewWordToDictionary(wordAsKey: String, synonyms: [String]) {
         wordsService.addNewWordToDictionary(wordAsKey: wordAsKey, synonyms: synonyms)
     }
+    
+    func wordsResponseFromService(object: [String : [String]]?, error: Error?) {
+        wordsViewModelOutput?.getSearchWordsResult(dictionary: object, error: nil)
+    }
+    
+    func addWordsResponseFromService(wordIsAdded: Bool) {
+        wordsViewModelOutput?.getAddWordsResponse(wordIsAdded: wordIsAdded)
+    }
+    
 }
 
 
