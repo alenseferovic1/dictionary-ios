@@ -58,9 +58,9 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         
         // add material design components programatically
         addWordsWrapper.addSubview(addWordField)
-        setupConstrainsForField(view: addWordField, equalView: addWordsWrapper, topAnchorConstant: 20.0, leadingAnchorConstant: 20.0, traillingAnchorConstant: -20.0)
+        setupConstrainsForField(view: addWordField, equalView: addWordsWrapper, topAnchorConstant: CGFloat(Constants.addWordFieldTopAnchor), leadingAnchorConstant: CGFloat(Constants.defaultLeftAnchor), traillingAnchorConstant: CGFloat(Constants.defaultRightAnchor))
         addWordsWrapper.addSubview(addSynonymField)
-        setupConstrainsForField(view: addSynonymField, equalView: addWordField, topAnchorConstant: 70.0, leadingAnchorConstant: 20.0, traillingAnchorConstant: -130.0)
+        setupConstrainsForField(view: addSynonymField, equalView: addWordField, topAnchorConstant: CGFloat(Constants.addSynonymFieldTopAnchor), leadingAnchorConstant: CGFloat(Constants.defaultLeftAnchor), traillingAnchorConstant: CGFloat(Constants.addSynoymFieldRightAnchor))
     }
     
     
@@ -70,8 +70,13 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         for tag in tags.hashtags{
             synonyms.append(tag.text)
         }
-        
+        if(addWordField.text != Constants.emptyString && tags.hashtags.count != Constants.withoutContent){
         addWordsDelegate?.addWords(word: addWordField.text!, synonyms: synonyms, wordSearchDelegate: self)
+        }else if(addWordField.text == Constants.emptyString){
+            showAlertDialog(title: NSLocalizedString("empty_field", comment: Constants.emptyString), message: NSLocalizedString("blank_field_message", comment: Constants.emptyString))
+        }else{
+              showAlertDialog(title: NSLocalizedString("no_synoynms_added_title", comment: Constants.emptyString), message: NSLocalizedString("no_synonyms_added_message", comment: Constants.emptyString))
+        }
     }
     
     private func setupConstrainsForField(view: UIView, equalView: UIView, topAnchorConstant: CGFloat, leadingAnchorConstant: CGFloat, traillingAnchorConstant: CGFloat){
@@ -83,28 +88,31 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
     
     @IBAction func addSynonym(_ sender: Any) {
         let hashtag = HashTag(word: addSynonymField.text!, withHashSymbol: false, isRemovable: true)
-        if addSynonymField.text != "" && !addedTags.contains(addSynonymField.text!){
-            
+        
+         if (addSynonymField.text == Constants.emptyString){
+            showAlertDialog(title: NSLocalizedString("empty_field", comment: Constants.emptyString), message: NSLocalizedString("blank_field_synoynm_message", comment: Constants.emptyString))
+        }else if(addedTags.contains(addSynonymField.text!)){
+             showAlertDialog(title: NSLocalizedString("add_synonym_duplicate_title", comment: Constants.emptyString), message: NSLocalizedString("add_synonym_duplicate_message", comment: Constants.emptyString))
+        }else{
             addedTags.append(addSynonymField.text!)
             tags.addTag(tag: hashtag)
-        }else{
-            showAlertDialog(title: NSLocalizedString("add_synonym_duplicate_title", comment: ""), message: NSLocalizedString("add_synoynm_duplicate_message", comment: ""))
+            
+            scrollView.backgroundColor = UIColor.gray.withAlphaComponent(CGFloat(Constants.scrollViewAlphaBackgroundColor))
+                 scrollView.contentSize = CGSize(width: 100, height: tags.frame.size.height - 10)
+            addSynonymField.text = Constants.emptyString
         }
-        scrollView.backgroundColor = UIColor.gray.withAlphaComponent(CGFloat(Constants.scrollViewAlphaBackgroundColor))
-        scrollView.contentSize = CGSize(width: 100, height: tags.frame.size.height - 10)
-        addSynonymField.text = ""
     }
     
      private func addConstrainsToScrollViewAndHashtags() {
-        scrollView.leftAnchor.constraint(equalTo: addWordsWrapper.leftAnchor, constant: 20.0).isActive = true
-        scrollView.topAnchor.constraint(equalTo: addWordsWrapper.topAnchor, constant: 155.0).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: addWordsWrapper.rightAnchor, constant: -20.0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: addWordsWrapper.bottomAnchor, constant: -70.0).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: addWordsWrapper.leftAnchor, constant: CGFloat(Constants.defaultLeftAnchor)).isActive = true
+        scrollView.topAnchor.constraint(equalTo: addWordsWrapper.topAnchor, constant: CGFloat(Constants.scrollViewTopAnchor)).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: addWordsWrapper.rightAnchor, constant: CGFloat(Constants.defaultRightAnchor)).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: addWordsWrapper.bottomAnchor, constant: CGFloat(Constants.scrollViewBottomAnchor)).isActive = true
         
         tags.translatesAutoresizingMaskIntoConstraints = false
-        tags.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0).isActive = true
-        tags.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20.0).isActive = true
-        scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 240.0).isActive = true
+        tags.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: CGFloat(Constants.defaultLeftAnchor)).isActive = true
+        tags.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: CGFloat(Constants.defaultRightAnchor)).isActive = true
+       // scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 240.0).isActive = true
     }
     
     private func setupContentView() {
@@ -123,7 +131,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         
         addConstrainsToScrollViewAndHashtags()
         
-        self.heightConstraint = self.tags.heightAnchor.constraint(equalToConstant: 50.0)
+        self.heightConstraint = self.tags.heightAnchor.constraint(equalToConstant: CGFloat(Constants.tagsHeightAnchor))
         self.heightConstraint?.isActive = true
         
     }
@@ -192,7 +200,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
             self.navigationController?.popViewController(animated: true)
         }else{
             
-            showAlertDialog(title: NSLocalizedString("add_word_duplicate_title", comment: ""), message: NSLocalizedString("add_word_duplicate_message", comment: ""))
+            showAlertDialog(title: NSLocalizedString("add_word_duplicate_title", comment: Constants.emptyString), message: NSLocalizedString("add_word_duplicate_message", comment: Constants.emptyString))
         }
     }
     

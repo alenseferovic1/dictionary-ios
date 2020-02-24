@@ -11,3 +11,8 @@
 "add_word_duplicate_message" = "Word has alreadey added";
 "enter_synonym" = "Enter new synonym";
 "enter_word" = "Enter new word";
+"empty_field" = "Empty Field";
+"blank_field_message" = "Enter new word field cannot be blank";
+"no_synonyms_added_message" = "At least one synonym has to be added";
+"no_synoynms_added_title" = "No synonyms";
+"blank_field_synoynm_message" = "Enter new synoynm field cannot be blank";

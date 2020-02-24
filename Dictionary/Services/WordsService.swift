@@ -98,17 +98,17 @@ class WordsService: WordsServiceProtocol{
     func addNewWordToDictionary(wordAsKey: String, synonyms: [String]) {
         
         if wordsDictionary[wordAsKey] == nil{
-            var arrayOfExstedSynonyms = [String]()
+            var arrayOfExstentSynonyms = [String]()
             var arrayOfNonExistentSynonyms = [String]()
             wordsDictionary[wordAsKey] = synonyms
             
-            addAndUpdateSynonymsAsWord(synonyms, wordAsKey, &arrayOfNonExistentSynonyms, &arrayOfExstedSynonyms)
+            addAndUpdateSynonymsAsWord(synonyms, wordAsKey, &arrayOfNonExistentSynonyms, &arrayOfExstentSynonyms)
             
             // update all related words with missing synonyms
             
-            if(arrayOfExstedSynonyms.count != Constants.withoutContent){
+            if(arrayOfExstentSynonyms.count != Constants.withoutContent){
                 
-                updateDictionaryWithMissingWords(&arrayOfExstedSynonyms, synonyms, wordAsKey, arrayOfNonExistentSynonyms)
+                updateDictionaryWithMissingWords(&arrayOfExstentSynonyms, synonyms, wordAsKey, arrayOfNonExistentSynonyms)
                 
             }
             serviceOutput?.addWordsResponseFromService(wordIsAdded: true)

@@ -22,5 +22,13 @@ struct Constants {
     static let searchImagePortraitModeTopConstraint = 150
     static let searchImageLandscapeModeTopConstraint = 15
     static let withoutContent = 0
-    
+    static let defaultLeftAnchor = 20.0
+    static let defaultRightAnchor = -20.0
+    static let addWordFieldTopAnchor = 20.0
+    static let addSynonymFieldTopAnchor = 70.0
+    static let addSynoymFieldRightAnchor = -130.0
+    static let scrollViewTopAnchor = 155.0
+    static let scrollViewBottomAnchor = -70.0
+    static let tagsHeightAnchor = 50.0
+    static let emptyString = ""
 }
