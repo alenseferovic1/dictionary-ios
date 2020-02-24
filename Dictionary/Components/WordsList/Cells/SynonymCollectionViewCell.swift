@@ -13,8 +13,6 @@ class SynonymCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var synonymCell: UIView!
     
-    var navigationController: UINavigationController?
-
     override func awakeFromNib() {
         super.awakeFromNib()
          self.synonymCell!.layer.cornerRadius = 11

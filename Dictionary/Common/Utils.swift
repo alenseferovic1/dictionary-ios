@@ -8,8 +8,19 @@
 
 import Foundation
 struct Constants {
+    static let hashTagViewHeight = 70.0
     static let minCharsForInput = 3
     static let maxCharsForInput = 30
     static let cornerButtonRadius = 5.0
+    static let cornerWrapperRadius = 5.0
     static let alphaSynonymsWraperBackgroundColor = 0.5
+    static let delayTime = 0.1
+    static let durationTimeOfAnimation = 0.4
+    static let scrollViewAlphaBackgroundColor = 0.3
+    static let wordCellHeight = 140
+    static let heightForHeaderInSection = 15
+    static let searchImagePortraitModeTopConstraint = 150
+    static let searchImageLandscapeModeTopConstraint = 15
+    static let withoutContent = 0
+    
 }

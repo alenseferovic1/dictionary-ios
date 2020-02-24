@@ -69,14 +69,6 @@ class WordTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollecti
         return synonyms.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        let currentCell = collectionView.cellForItem(at: indexPath) as! SynonymCollectionViewCell
-        if toolTipView != nil{self.toolTipView?.dismiss()}
-                   toolTipView = EasyTipView(text: "Some text", preferences: preferences)
-                   toolTipView?.show(forView: currentCell)
-    }
-    
     func setupToolTipPreferences() {
            preferences.drawing.font = UIFont(name: "Arial", size: 13)!
            preferences.drawing.foregroundColor = UIColor.black

@@ -24,10 +24,10 @@
 		1F68C65A23F7BBE300D0E8B2 /* SynonymCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F68C65823F7BBE300D0E8B2 /* SynonymCollectionViewCell.xib */; };
 		1F68C65E23F92BF500D0E8B2 /* AddWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F68C65D23F92BF500D0E8B2 /* AddWordViewController.swift */; };
 		1F9EBC0223FC12DD00F955FC /* WordsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9EBC0123FC12DD00F955FC /* WordsService.swift */; };
-		1F9EBC0423FC138B00F955FC /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9EBC0323FC138B00F955FC /* BaseService.swift */; };
 		1F9EBC0723FC2A6C00F955FC /* WordsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9EBC0623FC2A6C00F955FC /* WordsViewModel.swift */; };
 		1FE72AA02402B53D00102E9D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE72A9F2402B53D00102E9D /* Utils.swift */; };
 		1FE72AA42402BA4800102E9D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FE72AA32402BA4800102E9D /* Localizable.strings */; };
+		1FE72AA62403A8A800102E9D /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE72AA52403A8A800102E9D /* PaddingLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,12 +70,12 @@
 		1F68C65823F7BBE300D0E8B2 /* SynonymCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SynonymCollectionViewCell.xib; sourceTree = "<group>"; };
 		1F68C65D23F92BF500D0E8B2 /* AddWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWordViewController.swift; sourceTree = "<group>"; };
 		1F9EBC0123FC12DD00F955FC /* WordsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsService.swift; sourceTree = "<group>"; };
-		1F9EBC0323FC138B00F955FC /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		1F9EBC0623FC2A6C00F955FC /* WordsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsViewModel.swift; sourceTree = "<group>"; };
 		1FE72A9F2402B53D00102E9D /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		1FE72AA12402B89200102E9D /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Main.strings"; sourceTree = "<group>"; };
 		1FE72AA22402B89300102E9D /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		1FE72AA32402BA4800102E9D /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		1FE72AA52403A8A800102E9D /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		23DF474F15C270CFCE07ABE9 /* Pods_Dictionary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dictionary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51F23C788CA924194EA53F4A /* Pods-Dictionary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dictionary.debug.xcconfig"; path = "Target Support Files/Pods-Dictionary/Pods-Dictionary.debug.xcconfig"; sourceTree = "<group>"; };
 		5E29424E864C81EDA359F59F /* Pods-Dictionary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dictionary.release.xcconfig"; path = "Target Support Files/Pods-Dictionary/Pods-Dictionary.release.xcconfig"; sourceTree = "<group>"; };
@@ -186,7 +186,6 @@
 			isa = PBXGroup;
 			children = (
 				1F9EBC0123FC12DD00F955FC /* WordsService.swift */,
-				1F9EBC0323FC138B00F955FC /* BaseService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -233,6 +232,7 @@
 			children = (
 				1F1F082223FA6D510035BB79 /* MyMultilineTextField.swift */,
 				1FE72A9F2402B53D00102E9D /* Utils.swift */,
+				1FE72AA52403A8A800102E9D /* PaddingLabel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -466,7 +466,7 @@
 				1F11EBB423F69FE400A07CEE /* AppDelegate.swift in Sources */,
 				1F68C65923F7BBE300D0E8B2 /* SynonymCollectionViewCell.swift in Sources */,
 				1F11EBB623F69FE400A07CEE /* SceneDelegate.swift in Sources */,
-				1F9EBC0423FC138B00F955FC /* BaseService.swift in Sources */,
+				1FE72AA62403A8A800102E9D /* PaddingLabel.swift in Sources */,
 				1F1F082323FA6D510035BB79 /* MyMultilineTextField.swift in Sources */,
 				1FE72AA02402B53D00102E9D /* Utils.swift in Sources */,
 			);

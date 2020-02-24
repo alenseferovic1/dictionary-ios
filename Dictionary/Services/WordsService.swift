@@ -19,8 +19,8 @@ protocol WordsServiceOutput{
 }
 
 class WordsService: WordsServiceProtocol{
-    var wordsDictionary = [String: [String]]()
-    var serviceOutput: WordsServiceOutput?
+    private var wordsDictionary = [String: [String]]()
+    private var serviceOutput: WordsServiceOutput?
     
     func getSearchedWords(searchString: String) {
         var searchWordsDictionary = [String: [String]]()
@@ -37,7 +37,7 @@ class WordsService: WordsServiceProtocol{
         self.serviceOutput = serviceOutput
     }
     
-    func addAndUpdateSynonymsAsWord(_ synonyms: [String], _ wordAsKey: String, _ arrayOfNoExsistingSynonyms: inout [String], _ arrayOfExsitingSynonyms: inout [String]) {
+    private func addAndUpdateSynonymsAsWord(_ synonyms: [String], _ wordAsKey: String, _ arrayOfNonExsistentSynonyms: inout [String], _ arrayOfExsitentSynonyms: inout [String]) {
         for  (index,syn) in synonyms.enumerated(){
             // add synonyms as words and replace synonym with word
             if wordsDictionary[syn] == nil{
@@ -47,28 +47,28 @@ class WordsService: WordsServiceProtocol{
                 newSynonyms.remove(at: index)
                 newSynonyms.append(wordAsKey)
                 
-                arrayOfNoExsistingSynonyms.append(syn)
+                arrayOfNonExsistentSynonyms.append(syn)
                 wordsDictionary[syn] = newSynonyms
                 
             }else{
                 //  append array with existing synonyms
                 //add new word/key as synonym to synonym as word
                 
-                arrayOfExsitingSynonyms.append(syn)
+                arrayOfExsitentSynonyms.append(syn)
                 wordsDictionary[syn]?.append(wordAsKey)
             }
         }
         
         //update existed items with  words as synonyms
-        for existedItem in arrayOfExsitingSynonyms{
-            wordsDictionary[existedItem]?.append(contentsOf: arrayOfNoExsistingSynonyms)
+        for existedItem in arrayOfExsitentSynonyms{
+            wordsDictionary[existedItem]?.append(contentsOf: arrayOfNonExsistentSynonyms)
         }
     }
     
-    fileprivate func updateDictionaryWithMissingWords(_ arrayOfExsitingSynonyms: inout [String], _ synonyms: [String], _ wordAsKey: String, _ arrayOfNoExsistingSynonyms: [String]) {
+    private func updateDictionaryWithMissingWords(_ arrayOfExsitentSynonyms: inout [String], _ synonyms: [String], _ wordAsKey: String, _ arrayOfNonExsistentSynonyms: [String]) {
         // Exsisting synonyms/words are already up to date and from them we can get missing words
         
-        let existedItem = arrayOfExsitingSynonyms[0]
+        let existedItem = arrayOfExsitentSynonyms[0]
         // set new array for avoid duplicate for loop
         var synonymsDictionary = [String: String]()
         for synonym in synonyms{
@@ -81,7 +81,7 @@ class WordsService: WordsServiceProtocol{
         for (index,item) in missingWords!.enumerated(){
             if(item != wordAsKey){
                 wordsDictionary[item]?.append(wordAsKey)
-                wordsDictionary[item]?.append(contentsOf: arrayOfNoExsistingSynonyms)
+                wordsDictionary[item]?.append(contentsOf: arrayOfNonExsistentSynonyms)
             }else{
                 modifiedMissingWordsArray = missingWords!
                 modifiedMissingWordsArray.remove(at: index)
@@ -89,7 +89,7 @@ class WordsService: WordsServiceProtocol{
             }
         }
         
-        for noExsistedItem in arrayOfNoExsistingSynonyms{
+        for noExsistedItem in arrayOfNonExsistentSynonyms{
             
             wordsDictionary[noExsistedItem]?.append(contentsOf: modifiedMissingWordsArray)
         }
@@ -98,17 +98,17 @@ class WordsService: WordsServiceProtocol{
     func addNewWordToDictionary(wordAsKey: String, synonyms: [String]) {
         
         if wordsDictionary[wordAsKey] == nil{
-            var arrayOfExsitingSynonyms = [String]()
-            var arrayOfNoExsistingSynonyms = [String]()
+            var arrayOfExstedSynonyms = [String]()
+            var arrayOfNonExistentSynonyms = [String]()
             wordsDictionary[wordAsKey] = synonyms
             
-            addAndUpdateSynonymsAsWord(synonyms, wordAsKey, &arrayOfNoExsistingSynonyms, &arrayOfExsitingSynonyms)
+            addAndUpdateSynonymsAsWord(synonyms, wordAsKey, &arrayOfNonExistentSynonyms, &arrayOfExstedSynonyms)
             
             // update all related words with missing synonyms
             
-            if(arrayOfExsitingSynonyms.count != 0){
+            if(arrayOfExstedSynonyms.count != Constants.withoutContent){
                 
-                updateDictionaryWithMissingWords(&arrayOfExsitingSynonyms, synonyms, wordAsKey, arrayOfNoExsistingSynonyms)
+                updateDictionaryWithMissingWords(&arrayOfExstedSynonyms, synonyms, wordAsKey, arrayOfNonExistentSynonyms)
                 
             }
             serviceOutput?.addWordsResponseFromService(wordIsAdded: true)

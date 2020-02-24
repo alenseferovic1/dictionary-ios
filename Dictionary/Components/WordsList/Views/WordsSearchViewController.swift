@@ -53,7 +53,7 @@ class WordsSearchViewController: UIViewController, UISearchBarDelegate, UITableV
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if !searchBar.text!.isEmpty && dictionary.count == 0  {
+        if !searchBar.text!.isEmpty && dictionary.count == Constants.withoutContent  {
             noMachesLabel.isHidden = false
         }else{
            noMachesLabel.isHidden = true
@@ -79,11 +79,11 @@ class WordsSearchViewController: UIViewController, UISearchBarDelegate, UITableV
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 140
+        return CGFloat(Constants.wordCellHeight)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15
+        return CGFloat(Constants.heightForHeaderInSection)
     }
     
     // Make the background color show through
@@ -96,7 +96,7 @@ class WordsSearchViewController: UIViewController, UISearchBarDelegate, UITableV
     func getSearchWordsResult(dictionary: [String : [String]]?, error: Error?) {
         
         self.dictionary = dictionary!
-        if dictionary?.count != 0{
+        if dictionary?.count != Constants.withoutContent{
         wordsTableView.isHidden = false
         }else{
           wordsTableView.isHidden = true
@@ -105,12 +105,12 @@ class WordsSearchViewController: UIViewController, UISearchBarDelegate, UITableV
         
     }
     
-    fileprivate func setSearchIconConstraints() {
+    private func setSearchIconConstraints() {
         if UIDevice.current.orientation.isPortrait {
             
-            searchIconTopConstraint.constant = 150
+            searchIconTopConstraint.constant = CGFloat(Constants.searchImagePortraitModeTopConstraint)
         }else{
-            searchIconTopConstraint.constant = 15
+            searchIconTopConstraint.constant = CGFloat(Constants.searchImageLandscapeModeTopConstraint)
         }
     }
     

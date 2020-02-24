@@ -23,15 +23,16 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
     
     @IBOutlet weak var addNewWordButton: UIButton!
     
-    var heightConstraint: NSLayoutConstraint?
+    private var heightConstraint: NSLayoutConstraint?
+    
     var addWordsDelegate: AddWordsDelegate?
     
-    let addSynonymField = MyMultilineTextField(placeholder: NSLocalizedString("enter_synonym", comment: ""))
-    let addWordField = MyMultilineTextField(placeholder: NSLocalizedString("enter_word", comment: ""))
+    private let addSynonymField = MyMultilineTextField(placeholder: NSLocalizedString("enter_synonym", comment: ""))
+    private let addWordField = MyMultilineTextField(placeholder: NSLocalizedString("enter_word", comment: ""))
     
-    var addedTags = [String]()
+    private var addedTags = [String]()
     
-    let scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let v = UIScrollView()
         v.translatesAutoresizingMaskIntoConstraints = false
         v.backgroundColor = .systemOrange
@@ -39,7 +40,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
     }()
     // synoynms wrapper view
     lazy var tags: HashtagView = {
-        let tags = HashtagView(frame: CGRect(x: 0, y: 0, width: 0, height: 70.0))
+        let tags = HashtagView(frame: CGRect(x: 0, y: 0, width: 0, height: Constants.hashTagViewHeight))
         tags.cornerRadius = CGFloat(Constants.cornerButtonRadius)
         tags.tagCornerRadius = CGFloat(Constants.cornerButtonRadius)
         tags.backgroundColor = UIColor.clear
@@ -55,6 +56,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         setNavBackButton(delegate: self)
         setupContentView()
         
+        // add material design components programatically
         addWordsWrapper.addSubview(addWordField)
         setupConstrainsForField(view: addWordField, equalView: addWordsWrapper, topAnchorConstant: 20.0, leadingAnchorConstant: 20.0, traillingAnchorConstant: -20.0)
         addWordsWrapper.addSubview(addSynonymField)
@@ -72,7 +74,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         addWordsDelegate?.addWords(word: addWordField.text!, synonyms: synonyms, wordSearchDelegate: self)
     }
     
-    func setupConstrainsForField(view: UIView, equalView: UIView, topAnchorConstant: CGFloat, leadingAnchorConstant: CGFloat, traillingAnchorConstant: CGFloat){
+    private func setupConstrainsForField(view: UIView, equalView: UIView, topAnchorConstant: CGFloat, leadingAnchorConstant: CGFloat, traillingAnchorConstant: CGFloat){
         view.translatesAutoresizingMaskIntoConstraints = false
         view.leadingAnchor.constraint(equalTo: addWordsWrapper.leadingAnchor, constant: leadingAnchorConstant).isActive = true
         view.trailingAnchor.constraint(equalTo: addWordsWrapper.trailingAnchor, constant: traillingAnchorConstant).isActive = true
@@ -88,12 +90,12 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         }else{
             showAlertDialog(title: NSLocalizedString("add_synonym_duplicate_title", comment: ""), message: NSLocalizedString("add_synoynm_duplicate_message", comment: ""))
         }
-        scrollView.backgroundColor = UIColor.gray.withAlphaComponent(0.3)
+        scrollView.backgroundColor = UIColor.gray.withAlphaComponent(CGFloat(Constants.scrollViewAlphaBackgroundColor))
         scrollView.contentSize = CGSize(width: 100, height: tags.frame.size.height - 10)
         addSynonymField.text = ""
     }
     
-     func addConstrainsToScrollViewAndHashtags() {
+     private func addConstrainsToScrollViewAndHashtags() {
         scrollView.leftAnchor.constraint(equalTo: addWordsWrapper.leftAnchor, constant: 20.0).isActive = true
         scrollView.topAnchor.constraint(equalTo: addWordsWrapper.topAnchor, constant: 155.0).isActive = true
         scrollView.rightAnchor.constraint(equalTo: addWordsWrapper.rightAnchor, constant: -20.0).isActive = true
@@ -105,17 +107,18 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 240.0).isActive = true
     }
     
-    func setupContentView() {
+    private func setupContentView() {
         addTagButton.layer.cornerRadius = CGFloat(Constants.cornerButtonRadius)
         addWordsButton.layer.cornerRadius = CGFloat(Constants.cornerButtonRadius)
         addWordsWrapper.clipsToBounds = true
-        addWordsWrapper.layer.cornerRadius = 20
+        addWordsWrapper.layer.cornerRadius = CGFloat(Constants.cornerWrapperRadius)
         addWordsWrapper.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         
         self.tags.delegate = self
         self.scrollView.delegate = self
-        
+        // add scroll view programatically
         self.addWordsWrapper.addSubview(scrollView)
+        //add tags wrapper programatically
         self.scrollView.addSubview(self.tags)
         
         addConstrainsToScrollViewAndHashtags()
@@ -138,7 +141,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentCharacterCount = textField.text?.count ?? 0
+        let currentCharacterCount = textField.text?.count ?? Constants.withoutContent
         if (range.length + range.location > currentCharacterCount){
             return false
         }
@@ -168,7 +171,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         }
         constraint.constant = size.height
         
-        UIView.animate(withDuration: 0.4) {
+        UIView.animate(withDuration: Constants.durationTimeOfAnimation) {
             self.view.layoutIfNeeded()
         }
     }
@@ -178,13 +181,13 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         if UIDevice.current.orientation.isPortrait {
             
             let hashtag = HashTag(word: "", withHashSymbol: false, isRemovable: true)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {         self.tags.addTag(tag: hashtag)
+            DispatchQueue.main.asyncAfter(deadline: .now() + Constants.delayTime) {         self.tags.addTag(tag: hashtag)
                 self.tags.removeTag(tag: hashtag)
             }
         }
     }
     
-    func closeAddWordsControllerOnSuccess(wordIsAdded: Bool) {
+     func closeAddWordsControllerOnSuccess(wordIsAdded: Bool) {
         if wordIsAdded{
             self.navigationController?.popViewController(animated: true)
         }else{
@@ -193,7 +196,7 @@ class AddWordViewController: UIViewController, HashtagViewDelegate, UITextFieldD
         }
     }
     
-    func showAlertDialog(title: String, message: String) {
+    private func showAlertDialog(title: String, message: String) {
           let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
           alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
           self.present(alert, animated: true, completion: nil)
