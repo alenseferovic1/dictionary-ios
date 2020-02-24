@@ -1,0 +1,18 @@
+
+/* Class = "UIButton"; normalTitle = "Add Words"; ObjectID = "5Tl-bo-lld"; */
+"5Tl-bo-lld.normalTitle" = "Add Words";
+
+/* Class = "UILabel"; text = "No word maches"; ObjectID = "MHJ-nF-Maa"; */
+"MHJ-nF-Maa.text" = "No word maches";
+
+/* Class = "UIButton"; normalTitle = "Add Synonym"; ObjectID = "fM0-2W-nVK"; */
+"fM0-2W-nVK.normalTitle" = "Add Synonym";
+
+/* Class = "UILabel"; text = "Add new words"; ObjectID = "jHW-49-JHQ"; */
+"jHW-49-JHQ.text" = "Add new words";
+
+/* Class = "UILabel"; text = "Search you dictionary"; ObjectID = "lQb-g1-Spl"; */
+"lQb-g1-Spl.text" = "Search you dictionary";
+
+/* Class = "UILabel"; text = "Home"; ObjectID = "psR-fj-aqY"; */
+"psR-fj-aqY.text" = "Home";

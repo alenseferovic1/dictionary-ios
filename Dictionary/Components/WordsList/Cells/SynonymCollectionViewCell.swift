@@ -2,7 +2,7 @@
 //  SynonymCollectionViewCell.swift
 //  Dictionary
 //
-//  Created by Alen  Seferovic on 15/02/2020.
+//  Created by Alen  Seferovic on 18/02/2020.
 //  Copyright © 2020 Alen  Seferovic. All rights reserved.
 //
 

@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  Dictionary
+
+  Created by Alen  Seferovic on 23/02/2020.
+  Copyright © 2020 Alen  Seferovic. All rights reserved.
+*/
+"add_word_duplicate_title" = "Duplicate Word";
+"add_synonym_duplicate_title" = "Duplicate Synonym";
+"add_synonym_duplicate_message" = "Synonym has alreadey added";
+"add_word_duplicate_message" = "Word has alreadey added";
+"enter_synonym" = "Enter new synonym";
+"enter_word" = "Enter new word";

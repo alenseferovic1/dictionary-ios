@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Dictionary
 //
-//  Created by Alen  Seferovic on 14/02/2020.
+//  Created by Alen  Seferovic on 17/02/2020.
 //  Copyright © 2020 Alen  Seferovic. All rights reserved.
 //
 
